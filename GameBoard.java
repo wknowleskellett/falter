@@ -1,5 +1,3 @@
-//package falter;
-
 import java.util.ArrayList;
 
 public class GameBoard {
@@ -92,6 +90,11 @@ public class GameBoard {
 			}
 		}
 		return ERROR;
+	}
+	
+	public void step() {
+		// TODO write method
+		System.out.println("I did a step.");
 	}
 	
 	public String toString() {

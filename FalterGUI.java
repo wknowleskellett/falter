@@ -1,9 +1,7 @@
 //	William Knowles-Kellett
 //	8/14/2019
-//	
 
 
-//package falter;
 
 import java.util.Scanner;
 
@@ -83,19 +81,49 @@ public class FalterGUI {
 				} else {
 					fail++;
 				}
+			} else if (first.equals("step")) {
+				int step = 1;
+				if (line.hasNext()) {
+					if (line.hasNextInt()) {
+						step = line.nextInt();
+					} else {
+						// TODO error message explaining that step has an optional argument
+						// that accepts an integer amount of steps.
+						System.out.println("");
+					}
+				}
+				for (int i=0; i < step; i++) {
+					g.step();
+				}
 			} else if (first.equals("?")) {
 				if (!line.hasNext()) {
 					System.out.println(
 							"The commands available are:\n" + 
-							"\tadd <x> <y>");
+							"\tadd <x> <y>\n" + 
+							"\tstep [steps]\n" + 
+							"\t? [command-name]");
 				} else {
-					String second = line.next();
+					String second = line.next().toLowerCase();
 					if (second.equals("add")) {
 						System.out.println(
 								"Usage:\n" + 
 								"add <x> <y>\n" +
-								"<x> and <y> are the coordinates from the top left corner\n" +
-								"at which to add a point.");
+								"<x> and <y> are the coordinates from the top left\n" +
+								"corner of the board at which to add a point.");
+					} else if (second.equals("step")) {
+						// TODO update for step
+						System.out.println(
+								"Usage:\n" + 
+								"add <x> <y>\n" +
+								"<x> and <y> are the coordinates from the top left\n" +
+								"corner of the board at which to add a point.");
+					} else if (second.equals("?")) {
+						// TODO update for help
+						System.out.println(
+								"Usage:\n" + 
+								"add <x> <y>\n" +
+								"<x> and <y> are the coordinates from the top left\n" +
+								"corner of the board at which to add a point.");
 					}
 				}
 			} else {
