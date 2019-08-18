@@ -59,9 +59,6 @@ public class FalterGUI {
 		// main loop
 		
 		while(true) {
-			// TODO add "show" command (or just "s"), and make step print the board every step
-			// but get rid of this. It's annoying
-			System.out.println(g);
 			
 			if (!in.hasNextLine()) {
 				// end the program. Nothing to do.
@@ -75,6 +72,8 @@ public class FalterGUI {
 			
 			// If the command was all whitespace (or was empty)
 			if (!line.hasNext()) {
+				// Show the gameboard, cause I'm lazy
+				System.out.println(g);
 				line.close();
 				continue;
 			}
@@ -94,6 +93,9 @@ public class FalterGUI {
 				// give the user a way to exit and still close the resources
 				line.close();
 				break;
+			} else if (first.equals("show")) {
+				// show the gameboard
+				System.out.println(g);
 			} else if (first.equals("add")) {
 				// add a mobile point to the GameBoard
 				// x and y should both follow the add command on the same line
@@ -138,6 +140,7 @@ public class FalterGUI {
 					
 					System.out.println(
 							"The commands available are:\n" + 
+							"\tshow\n" + 
 							"\tadd <x> <y>\n" + 
 							"\tstep [steps]\n" + 
 							"\t? [command-name]");
@@ -145,7 +148,12 @@ public class FalterGUI {
 					// help for specific commands
 					
 					String second = line.next().toLowerCase();
-					if (second.equals("add")) {
+					if (second.equals("show")) {
+						System.out.println(
+								"Usage:\n" + 
+								"add\n" +
+								"Displays the game board.");
+					} else if (second.equals("add")) {
 						System.out.println(
 								"Usage:\n" + 
 								"add <x> <y>\n" +
