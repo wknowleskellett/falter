@@ -151,7 +151,7 @@ public class FalterGUI {
 					if (second.equals("show")) {
 						System.out.println(
 								"Usage:\n" + 
-								"add\n" +
+								"show\n" +
 								"Displays the game board.");
 					} else if (second.equals("add")) {
 						System.out.println(
@@ -163,13 +163,13 @@ public class FalterGUI {
 						System.out.println(
 								"Usage:\n" + 
 								"step [steps]\n" +
-								"steps is an optional argument, the amount of steps to run.\n" +
+								"[steps] is the amount of steps to run.\n" +
 								"Defaults to 1.");
 					} else if (second.equals("?")) {
 						System.out.println(
 								"Usage:\n" + 
 								"? [command name]\n" +
-								"command name is an optional argument.\n" +
+								"[command name] is an optional argument.\n" +
 								"Just try to tell me you don't understand this command. Try it.");
 					} else {
 						fail++;
