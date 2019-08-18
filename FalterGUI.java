@@ -1,8 +1,6 @@
 //	William Knowles-Kellett
 //	8/14/2019
 
-
-
 import java.util.Scanner;
 
 public class FalterGUI {
@@ -17,7 +15,16 @@ public class FalterGUI {
 		
 		if (args.length == 1) {
 			if (args[0].equals("?")) {
-				// TODO help screen
+				System.out.println(
+						"Usage: ./FalterGUI.java [x y [fill] | ?]\n" +
+						"x y [fill]\n" +
+						"\tx and y are the width and height of your\n" +
+						"\tgameboard, while fill is an optional double\n" +
+						"\tranging between 0 and 1 (inclusive) denoting\n" +
+						"\tthe fraction of the board which is a dot."
+						// TODO find a better name than dot
+						);
+				
 				System.exit(0);
 			} else {
 				System.out.println("Usage: ./FalterGUI.java [x y [fill] | ?]");
@@ -61,6 +68,14 @@ public class FalterGUI {
 			}
 			int fail = 0;
 			String first = line.next().toLowerCase();
+			
+			// This series of if, else if's controls the command input system.
+			// first is the first word in the command, where line is the
+			// scanner through the entire command.
+			//
+			// I'm scanning the string instead of System.in, so that hasNext
+			// does not prompt the user for more input.
+			
 			if (first.equals("exit")) {
 				line.close();
 				break;
@@ -87,11 +102,11 @@ public class FalterGUI {
 					if (line.hasNextInt()) {
 						step = line.nextInt();
 					} else {
-						// TODO error message explaining that step has an optional argument
-						// that accepts an integer amount of steps.
-						System.out.println("");
+						step = 0;
+						fail++;
 					}
 				}
+				
 				for (int i=0; i < step; i++) {
 					g.step();
 				}
@@ -111,26 +126,26 @@ public class FalterGUI {
 								"<x> and <y> are the coordinates from the top left\n" +
 								"corner of the board at which to add a point.");
 					} else if (second.equals("step")) {
-						// TODO update for step
 						System.out.println(
 								"Usage:\n" + 
-								"add <x> <y>\n" +
-								"<x> and <y> are the coordinates from the top left\n" +
-								"corner of the board at which to add a point.");
+								"step [steps]\n" +
+								"steps is an optional argument, the amount of steps to run.\n" +
+								"Defaults to 1.");
 					} else if (second.equals("?")) {
-						// TODO update for help
 						System.out.println(
 								"Usage:\n" + 
-								"add <x> <y>\n" +
-								"<x> and <y> are the coordinates from the top left\n" +
-								"corner of the board at which to add a point.");
+								"? [command name]\n" +
+								"command name is an optional argument.\n" +
+								"Just try and tell me you don't understand this command. Try it.");
+					} else {
+						fail++;
 					}
 				}
 			} else {
 				fail++;
 			}
 			if (fail > 0) {
-				System.out.println("Invalid command.");
+				System.out.println("Invalid command. Run '?' for help.");
 			}
 			System.out.print("\n");
 			line.close();
