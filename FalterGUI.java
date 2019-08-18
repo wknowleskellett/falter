@@ -13,6 +13,8 @@ public class FalterGUI {
 		int height = -1;
 		double fill = -1;
 		
+		// process command line arguments
+		
 		if (args.length == 1) {
 			if (args[0].equals("?")) {
 				System.out.println(
@@ -27,7 +29,7 @@ public class FalterGUI {
 				
 				System.exit(0);
 			} else {
-				System.out.println("Usage: ./FalterGUI.java [x y [fill] | ?]");
+				System.out.println("Usage: ./FalterGUI.java [<x> <y> [fill] | ?]");
 				System.exit(1);
 			}
 		} else if (args.length == 2 || args.length == 3) {
@@ -38,9 +40,11 @@ public class FalterGUI {
 			status = 2;
 			fill = Double.parseDouble(args[2]);
 		} else if (args.length > 3){
-			System.out.println("Usage: ./FalterGUI.java [x y [fill] | ?]");
+			System.out.println("Usage: ./FalterGUI.java [<x> <y> [fill] | ?]");
 			System.exit(1);
 		}
+		
+		// Based on arguments, initialize the GameBoard
 		
 		if (status == 0) {
 			g = new GameBoard();
@@ -52,34 +56,47 @@ public class FalterGUI {
 		
 		Scanner in = new Scanner(System.in);
 		
+		// main loop
+		
 		while(true) {
+			// TODO add "show" command (or just "s"), and make step print the board every step
+			// but get rid of this. It's annoying
 			System.out.println(g);
 			
 			if (!in.hasNextLine()) {
+				// end the program. Nothing to do.
 				break;
 			}
-			String order = in.nextLine();
 			
-			Scanner line = new Scanner(order);
+			String command = in.nextLine();
 			
+			// scan over each word in the command entered
+			Scanner line = new Scanner(command);
+			
+			// If the command was all whitespace (or was empty)
 			if (!line.hasNext()) {
 				line.close();
 				continue;
 			}
+			
 			int fail = 0;
+			
+			// "first" is the first word in the command, where "line" is the
+			// scanner through the entire command.
 			String first = line.next().toLowerCase();
 			
-			// This series of if, else if's controls the command input system.
-			// first is the first word in the command, where line is the
-			// scanner through the entire command.
-			//
-			// I'm scanning the string instead of System.in, so that hasNext
+			// This series of "if, else if" controls the command input system.
+			
+			// I'm scanning the String command instead of System.in, so that querying hasNext()
 			// does not prompt the user for more input.
 			
 			if (first.equals("exit")) {
+				// give the user a way to exit and still close the resources
 				line.close();
 				break;
 			} else if (first.equals("add")) {
+				// add a mobile point to the GameBoard
+				// x and y should both follow the add command on the same line
 				int x, y;
 				if (line.hasNextInt()) {
 					x = line.nextInt();
@@ -97,7 +114,10 @@ public class FalterGUI {
 					fail++;
 				}
 			} else if (first.equals("step")) {
+				// run either 1 step
 				int step = 1;
+				
+				// or however many the user requests
 				if (line.hasNext()) {
 					if (line.hasNextInt()) {
 						step = line.nextInt();
@@ -107,17 +127,23 @@ public class FalterGUI {
 					}
 				}
 				
+				// run that many steps
 				for (int i=0; i < step; i++) {
 					g.step();
 				}
 			} else if (first.equals("?")) {
+				// help menu
 				if (!line.hasNext()) {
+					// generic help
+					
 					System.out.println(
 							"The commands available are:\n" + 
 							"\tadd <x> <y>\n" + 
 							"\tstep [steps]\n" + 
 							"\t? [command-name]");
 				} else {
+					// help for specific commands
+					
 					String second = line.next().toLowerCase();
 					if (second.equals("add")) {
 						System.out.println(
@@ -136,7 +162,7 @@ public class FalterGUI {
 								"Usage:\n" + 
 								"? [command name]\n" +
 								"command name is an optional argument.\n" +
-								"Just try and tell me you don't understand this command. Try it.");
+								"Just try to tell me you don't understand this command. Try it.");
 					} else {
 						fail++;
 					}

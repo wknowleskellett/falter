@@ -18,8 +18,10 @@ public class GameBoard {
 	private int height;
 	private short[][] board;
 	
+	// This is a list of the points that move each step
 	ArrayList<int[]> movements;
 	
+	// Constructors
 	public GameBoard() {
 		this(50, 20);
 	}
@@ -46,6 +48,9 @@ public class GameBoard {
 		movements = new ArrayList<int[]>();
 	}
 	
+	// addPoint is run to set an initial mobile point,
+	// given its coordinates from the top left corner
+	// that point must already be "FULL"
 	public int addPoint(int x, int y) {
 		if (board[y][x] == FULL) {
 			board[y][x] = MOVED;
@@ -55,13 +60,26 @@ public class GameBoard {
 							y
 					}
 			);
-			return 0;
+			return 0; //success
 		}
 		return 1;
 	}
+	
+	public void step() {
+		// TODO write method
+		sonar(0, 0, UP);
+		System.out.println("I did a step.");
+	}
  
-	public int sonar(int x, int y, short direction) {
+	// sonar() is used by the step method.
+	// A MOVED spot can look in one of four directions
+	// and see what is there. Is it the edge of the gameboard? (WALL)
+	// Otherwise, it is either, EMPTY, FULL, or MOVED.
+	// If the coordinate or direction given is invalid, returns ERROR.
+	
+	private int sonar(int x, int y, short direction) {
 		if (x < 0 || x >= width || y < 0 || y >= height) {
+			// ERROR if the coordinate is invalid
 			return ERROR;
 		}
 		if (direction == UP) {
@@ -89,12 +107,8 @@ public class GameBoard {
 				return board[y][x-1];
 			}
 		}
+		// ERROR is returned if direction was invalid
 		return ERROR;
-	}
-	
-	public void step() {
-		// TODO write method
-		System.out.println("I did a step.");
 	}
 	
 	public String toString() {
